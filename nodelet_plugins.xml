@@ -1,0 +1,8 @@
+<library path="lib/libnodelet_test">
+    <class name="nodelet_test/NodeletPub" type="nodelet_test::NodeletPub" base_class_type="nodelet::Nodelet">
+        <description>A message publisher using nodelet.</description>
+    </class>
+    <class name="nodelet_test/NodeletSub" type="nodelet_test::NodeletSub" base_class_type="nodelet::Nodelet">
+        <description>A message subscriber using nodelet.</description>
+    </class>
+</library>
