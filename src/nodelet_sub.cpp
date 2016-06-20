@@ -1,40 +1,34 @@
 #include <ros/ros.h>
 #include <nodelet/nodelet.h>
 #include "std_msgs/String.h"
-#include <sstream>
 
-namespace nodelet_pub {
-int count = 0;
+#include <pluginlib/class_list_macros.h>
 
-class NodeletPub : public nodelet::Nodelet
+
+namespace nodelet_test {
+
+class NodeletSub : public nodelet::Nodelet
 {
     public:
-    ros::Publisher chatter_pub;
-    void timerCallback(const ros::TimerEvent&);
+    NodeletSub(){};
+    ~NodeletSub(){}
     virtual void onInit();
+    void chatterCallback(const std_msgs::StringPtr& msg);
 };
 
-void NodeletPub::timerCallback(const ros::TimerEvent&)
+void NodeletSub::chatterCallback(const std_msgs::StringPtr& msg)
 {
-    std_msgs::String msg;
-    std::stringstream ss;
-    ss << "hello world" << count;
-    msg.data = ss.str();
-    ROS_INFO("%s", msg.data.c_str());    
-    chatter_pub.publish(msg);
-    ++count;
+  ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
 
-void NodeletPub::onInit()
+void NodeletSub::onInit()
 {   
+    NODELET_DEBUG("Initializing nodelet...");
     ros::NodeHandle n = getNodeHandle();
-    chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
-    ros::Timer timer = n.createTimer(ros::Duration(0.1), &NodeletPub::timerCallback, this);
+    ros::Subscriber sub = n.subscribe("chatter", 1000, &NodeletSub::chatterCallback, this);
 }
-
-
-}//namespace nodelet_pub
+}//namespace nodelet_test
 
 // Register the nodelet
-#include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(nodelet_pub::NodeletPub, nodelet::Nodelet)
+
+PLUGINLIB_EXPORT_CLASS(nodelet_test::NodeletSub, nodelet::Nodelet)
