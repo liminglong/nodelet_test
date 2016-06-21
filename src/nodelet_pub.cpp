@@ -17,26 +17,32 @@ class NodeletPub : public nodelet::Nodelet
     ros::Publisher chatter_pub;
     ros::Timer timer;
     ros::NodeHandle n;
-    //void timerCallback(const ros::TimerEvent&);
+    void timerCallback(const ros::TimerEvent&);
     virtual void onInit();
 };
+
 NodeletPub::NodeletPub()
 {
-    std::cout << "Constructor works."  << std::endl;
 }
 NodeletPub::~NodeletPub()
 {
-    std::cout << "Deconstructor works." << std::endl;
 }
-/*
+
 void NodeletPub::timerCallback(const ros::TimerEvent&)
 {
     //std::cout << "hello in timerCallback" << std::endl;
+    std_msgs::StringPtr str(new std_msgs::String);
+    str->data = "hello world";
+    std::cout << "the address of the published msg is:" << &(str) << std::endl;
+    chatter_pub.publish(str); 
+    /*
     std_msgs::String msg;
     NodeletPub::chatter_pub = NodeletPub::n.advertise<std_msgs::String>("chatter", 1000);
     msg.data = "hello world";
+    std::cout << "the address of the published msg is:" << &(msg) << std::endl;
     chatter_pub.publish(msg); 
-}*/
+    */
+}
 
 void NodeletPub::onInit()
 {   
@@ -45,7 +51,7 @@ void NodeletPub::onInit()
     NodeletPub::n = getNodeHandle();
     
     chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
-    
+    /*
     ros::Rate loop_rate(1);
     while (ros::ok())
     {
@@ -57,9 +63,9 @@ void NodeletPub::onInit()
         loop_rate.sleep();
         ros::spinOnce();
     }
-    
+    */
     std::cout << "Initializing nodelet 3..." << std::endl;
-    //NodeletPub::timer = n.createTimer(ros::Duration(0.1), &NodeletPub::timerCallback, this);
+    NodeletPub::timer = n.createTimer(ros::Duration(0.1), &NodeletPub::timerCallback, this);
     std::cout << "Initializing nodelet 4..." << std::endl;
 }
 

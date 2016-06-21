@@ -25,6 +25,7 @@ void NodeletSub::chatterCallback(const std_msgs::StringConstPtr & msg)
 {
   std::cout << "chatter Callback start!" << std::endl;
   std::cout << count << std::endl;
+  std::cout << "the address of the subscribed msg is:" << &(msg) << std::endl;
   std::cout << msg->data << std::endl;
   ++count;
 }
