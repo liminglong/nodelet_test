@@ -31,17 +31,19 @@ NodeletPub::~NodeletPub()
 void NodeletPub::timerCallback(const ros::TimerEvent&)
 {
     //std::cout << "hello in timerCallback" << std::endl;
+    /*
     std_msgs::StringPtr str(new std_msgs::String);
     str->data = "hello world";
-    std::cout << "the address of the published msg is:" << &(str) << std::endl;
+    std::cout << "the use count of the published msg is: " << str.use_count() << std::endl;
+    std::cout << "the address of the published msg is: " << &(str) << std::endl;
     chatter_pub.publish(str); 
-    /*
+    */
     std_msgs::String msg;
     NodeletPub::chatter_pub = NodeletPub::n.advertise<std_msgs::String>("chatter", 1000);
     msg.data = "hello world";
     std::cout << "the address of the published msg is:" << &(msg) << std::endl;
     chatter_pub.publish(msg); 
-    */
+    
 }
 
 void NodeletPub::onInit()

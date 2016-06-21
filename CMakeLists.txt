@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
 )
-
+find_package(Boost REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -105,7 +105,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES nodelet_test
 #  CATKIN_DEPENDS kobuki_msgs nodelet roscpp rospy std_msgs
-#  DEPENDS system_lib
+   DEPENDS Boost
 )
 
 ###########
@@ -130,16 +130,16 @@ include_directories(
 # add_dependencies(nodelet_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(nodelet_test_node src/nodelet_test_node.cpp)
+add_executable(shared_ptr_test src/shared_ptr_test.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(nodelet_test_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(nodelet_test_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(shared_ptr_test
+   ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##

@@ -1,0 +1,14 @@
+<launch>
+  <node pkg="nodelet" type="nodelet" name="pub_sub_manager"  args="manager" output="screen"/>
+
+  <node pkg="nodelet" type="nodelet" name="pub" args="load nodelet_test/NodeletPub pub_sub_manager" output="screen">
+    <remap from="chatter" to="hello"/>
+  </node>
+
+                 
+  <node pkg="nodelet" type="nodelet" name="sub" args="load nodelet_test/NodeletSub pub_sub_manager" output="screen">
+    <remap from="chatter" to="hello"/>
+  </node>
+
+</launch>
+

@@ -16,16 +16,17 @@ class NodeletSub : public nodelet::Nodelet
     ~NodeletSub();
     ros::Subscriber sub;
     virtual void onInit();
-    void chatterCallback(const std_msgs::StringConstPtr & msg);
+    void chatterCallback(const std_msgs::StringPtr & msg);
 };
 NodeletSub::NodeletSub(){std::cout << "sub constructore works" << std::endl;}
 NodeletSub::~NodeletSub(){}
 
-void NodeletSub::chatterCallback(const std_msgs::StringConstPtr & msg)
+void NodeletSub::chatterCallback(const std_msgs::StringPtr & msg)
 {
   std::cout << "chatter Callback start!" << std::endl;
   std::cout << count << std::endl;
-  std::cout << "the address of the subscribed msg is:" << &(msg) << std::endl;
+  std::cout << "the use count of the subscribed msg is: " << msg.use_count() << std::endl;
+  std::cout << "the address of the subscribed msg is: " << &(msg) << std::endl;
   std::cout << msg->data << std::endl;
   ++count;
 }
