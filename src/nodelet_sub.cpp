@@ -1,31 +1,40 @@
 #include <ros/ros.h>
 #include <nodelet/nodelet.h>
 #include "std_msgs/String.h"
+#include <iostream>
 
 #include <pluginlib/class_list_macros.h>
 
 
 namespace nodelet_test {
+int count = 0;
 
 class NodeletSub : public nodelet::Nodelet
 {
     public:
-    NodeletSub(){};
-    ~NodeletSub(){}
+    NodeletSub();
+    ~NodeletSub();
+    ros::Subscriber sub;
     virtual void onInit();
-    void chatterCallback(const std_msgs::StringPtr& msg);
+    void chatterCallback(const std_msgs::StringConstPtr & msg);
 };
+NodeletSub::NodeletSub(){std::cout << "sub constructore works" << std::endl;}
+NodeletSub::~NodeletSub(){}
 
-void NodeletSub::chatterCallback(const std_msgs::StringPtr& msg)
+void NodeletSub::chatterCallback(const std_msgs::StringConstPtr & msg)
 {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  std::cout << "chatter Callback start!" << std::endl;
+  std::cout << count << std::endl;
+  std::cout << msg->data << std::endl;
+  ++count;
 }
 
 void NodeletSub::onInit()
 {   
-    NODELET_DEBUG("Initializing nodelet...");
+    std::cout << "hello" << std::endl;
     ros::NodeHandle n = getNodeHandle();
-    ros::Subscriber sub = n.subscribe("chatter", 1000, &NodeletSub::chatterCallback, this);
+    NodeletSub::sub = n.subscribe("chatter", 1000, &NodeletSub::chatterCallback, this);
+    std::cout << "hello2" << std::endl;
 }
 }//namespace nodelet_test
 
